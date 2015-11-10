@@ -1,7 +1,7 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 #parse("File Header.java")
 
-import de.pheru.mvp.PheruFXView;
+import de.pheru.fx.mvp.PheruFXView;
 
 public class ${NAME} extends PheruFXView {
     //convention over configuration
