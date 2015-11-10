@@ -1,6 +1,18 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+#if(${INITIALIZABLE} && ${INITIALIZABLE} == "true")
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+#end
+
 #parse("File Header.java")
+public class ${NAME} #if(${INITIALIZABLE} && ${INITIALIZABLE} == "true") implements Initializable #end{
 
-public class ${NAME} {
+#if(${INITIALIZABLE} && ${INITIALIZABLE} == "true")
+    public void initialize(URL location, ResourceBundle resources) {
+        //TODO implement
+    }
 
+#end
 }

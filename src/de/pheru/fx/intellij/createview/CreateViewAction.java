@@ -30,10 +30,10 @@ public class CreateViewAction extends AnAction {
         super.update(e);
         Project project = DataKeys.PROJECT.getData(e.getDataContext());
         VirtualFile[] files = DataKeys.VIRTUAL_FILE_ARRAY.getData(e.getDataContext());
-        if(project != null && files != null && files.length == 1){
+        if (project != null && files != null && files.length == 1) {
             PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(files[0]);
             e.getPresentation().setVisible(psiDirectory != null && checkPackageExists(psiDirectory));
-        }else{
+        } else {
             e.getPresentation().setVisible(false);
         }
     }
@@ -57,19 +57,28 @@ public class CreateViewAction extends AnAction {
         }
         Properties properties = FileTemplateManager.getDefaultInstance().getDefaultProperties();
         properties.setProperty("VIEWNAME", dialog.getViewName());
+        properties.setProperty("INITIALIZABLE", String.valueOf(dialog.isMakePresenterInitializableSelected()));
 
         PsiDirectory directory = PsiManager.getInstance(e.getProject()).findDirectory(DataKeys.VIRTUAL_FILE.getData(e.getDataContext()));
 
         FileTemplate viewTemplate = FileTemplateManager.getInstance(e.getProject()).getTemplate("PheruFXView");
         FileTemplate presenterTemplate = FileTemplateManager.getInstance(e.getProject()).getTemplate("PheruFXPresenter");
         FileTemplate fxmlTemplate = FileTemplateManager.getInstance(e.getProject()).getTemplate("PheruFXML");
+        FileTemplate cssTemplate = FileTemplateManager.getInstance(e.getProject()).getTemplate("PheruFXCss");
+        FileTemplate resourceBundleTemplate = FileTemplateManager.getInstance(e.getProject()).getTemplate("PheruFXResourceBundle");
 
         WriteCommandAction.runWriteCommandAction(e.getProject(), () -> {
-            PsiDirectory subdirectory = directory.createSubdirectory(dialog.getViewName().toLowerCase());
             try {
+                PsiDirectory subdirectory = directory.createSubdirectory(dialog.getViewName().toLowerCase());
                 FileTemplateUtil.createFromTemplate(viewTemplate, dialog.getViewName() + "View", properties, subdirectory);
                 FileTemplateUtil.createFromTemplate(presenterTemplate, dialog.getViewName() + "Presenter", properties, subdirectory);
                 FileTemplateUtil.createFromTemplate(fxmlTemplate, dialog.getViewName().toLowerCase(), properties, subdirectory);
+                if (dialog.isCreateCssSelected()) {
+                    FileTemplateUtil.createFromTemplate(cssTemplate, dialog.getViewName().toLowerCase(), properties, subdirectory);
+                }
+                if(dialog.isCreateResourceBundleSelected()){
+                    FileTemplateUtil.createFromTemplate(resourceBundleTemplate, dialog.getViewName().toLowerCase(), properties, subdirectory);
+                }
             } catch (Exception e1) {
                 throw new RuntimeException(e1);
             }

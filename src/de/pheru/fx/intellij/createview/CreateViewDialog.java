@@ -50,7 +50,7 @@ public class CreateViewDialog extends DialogWrapper {
     @Override
     protected ValidationInfo doValidate() {
         String viewName = viewNameField.getText();
-        if (viewName.length() > 0 && !PsiNameHelper.getInstance(project).isQualifiedName(viewName)) {
+        if (viewName.isEmpty() || (viewName.length() > 0 && !PsiNameHelper.getInstance(project).isQualifiedName(viewName))) {
             return new ValidationInfo("This is not a valid Java qualified name!");
         }
         return null;
