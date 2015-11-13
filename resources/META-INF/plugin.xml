@@ -1,17 +1,13 @@
 <idea-plugin version="2">
-  <id>com.your.company.unique.plugin.id</id>
-  <name>Plugin display name here</name>
+  <id>de.pheru.fx.intellij</id>
+  <name>pherufx4intellij</name>
   <version>1.0</version>
-  <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
 
   <description><![CDATA[
-      Enter short description for your plugin here.<br>
-      <em>most HTML tags may be used</em>
+      Plugin for <a href="https://github.com/pheru/pherufx-mvp">pherufx-mvp</a>.
     ]]></description>
 
   <change-notes><![CDATA[
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>
     ]]>
   </change-notes>
 
@@ -31,7 +27,7 @@
   <actions>
     <!-- Add your actions here -->
     <action id="PheruFXView" class="de.pheru.fx.intellij.createview.CreateViewAction" text="PheruFXView"
-            description="Erzeugt eine neue PheruFXView.">
+            description="Creates a new PheruFXView-package.">
       <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewPackageInfo"/>
     </action>
   </actions>
