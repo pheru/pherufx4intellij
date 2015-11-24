@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 public class ${NAME} #if(${INITIALIZABLE} && ${INITIALIZABLE} == "true") implements Initializable #end{
 
 #if(${INITIALIZABLE} && ${INITIALIZABLE} == "true")
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         //TODO implement
     }
