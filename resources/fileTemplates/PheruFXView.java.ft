@@ -1,8 +1,14 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 
+#if(${SCOPE} && ${SCOPE} != "Dependent")
+import javax.enterprise.context.${SCOPE};
+#end
 import de.pheru.fx.mvp.PheruFXView;
 
 #parse("File Header.java")
+#if(${SCOPE} && ${SCOPE} != "Dependent")
+@${SCOPE}
+#end
 public class ${NAME} extends PheruFXView {
     //convention over configuration
 }

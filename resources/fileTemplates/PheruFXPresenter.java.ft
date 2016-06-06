@@ -1,5 +1,8 @@
 #if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
 
+#if(${SCOPE} && ${SCOPE} != "Dependent")
+import javax.enterprise.context.${SCOPE};
+#end
 #if(${INITIALIZABLE} && ${INITIALIZABLE} == "true")
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -7,6 +10,9 @@ import javafx.fxml.Initializable;
 #end
 
 #parse("File Header.java")
+#if(${SCOPE} && ${SCOPE} != "Dependent")
+@${SCOPE}
+#end
 public class ${NAME} #if(${INITIALIZABLE} && ${INITIALIZABLE} == "true") implements Initializable #end{
 
 #if(${INITIALIZABLE} && ${INITIALIZABLE} == "true")

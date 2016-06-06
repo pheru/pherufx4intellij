@@ -79,6 +79,7 @@ public class CreateViewAction extends AnAction {
 
         Properties properties = FileTemplateManager.getDefaultInstance().getDefaultProperties();
         properties.setProperty("VIEWNAME", viewName);
+        properties.setProperty("SCOPE", dialog.getScope().getAnnotationName());
         properties.setProperty("INITIALIZABLE", String.valueOf(dialog.isMakePresenterInitializableSelected()));
 
         WriteCommandAction.runWriteCommandAction(event.getProject(), () -> {
@@ -122,7 +123,7 @@ public class CreateViewAction extends AnAction {
     }
 
     private PsiElement createFiles(Project project, PsiDirectory directory, Properties properties, String viewName,
-                                   CreateViewDialog dialog) throws Exception {
+            CreateViewDialog dialog) throws Exception {
         FileTemplate viewTemplate = FileTemplateManager.getInstance(project).getTemplate("PheruFXView");
         FileTemplate presenterTemplate = FileTemplateManager.getInstance(project).getTemplate("PheruFXPresenter");
         FileTemplate fxmlTemplate = FileTemplateManager.getInstance(project).getTemplate("PheruFXML");

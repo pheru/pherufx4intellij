@@ -1,13 +1,24 @@
 package de.pheru.fx.intellij.createview;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.psi.PsiNameHelper;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -20,6 +31,7 @@ public class CreateViewDialog extends DialogWrapper {
     private Project project;
 
     private JTextField inputField = new JTextField();
+    private ComboBox scopeComboBox = new ComboBox(Scope.values());
     private JCheckBox createCssBox = new JCheckBox("Create CSS");
     private JCheckBox createResourceBundleBox = new JCheckBox("Create ResourceBundle");
     private JCheckBox makePresenterInitializableBox = new JCheckBox("Make Presenter Initializable");
@@ -43,7 +55,7 @@ public class CreateViewDialog extends DialogWrapper {
         return l;
     }
 
-    protected CreateViewDialog(Project project, String input) {
+    CreateViewDialog(Project project, String input) {
         super(project, true);
         this.project = project;
         inputField.setText(input);
@@ -63,6 +75,7 @@ public class CreateViewDialog extends DialogWrapper {
             }
         });
         init();
+        setResizable(false);
         setTitle("PheruFXView");
     }
 
@@ -72,6 +85,13 @@ public class CreateViewDialog extends DialogWrapper {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         addToPanelAlignLeft(panel, inputField);
+
+        JPanel scopePanel = new JPanel();
+        scopePanel.setLayout(new BoxLayout(scopePanel, BoxLayout.X_AXIS));
+        addToPanelAlignLeft(scopePanel, new JLabel("Scope: "));
+        addToPanelAlignLeft(scopePanel, scopeComboBox);
+        addToPanelAlignLeft(panel, scopePanel);
+
         addToPanelAlignLeft(panel, createCssBox);
         addToPanelAlignLeft(panel, createResourceBundleBox);
         addToPanelAlignLeft(panel, new JSeparator(JSeparator.HORIZONTAL));
@@ -143,6 +163,10 @@ public class CreateViewDialog extends DialogWrapper {
 
     public String getInput() {
         return inputField.getText();
+    }
+
+    public Scope getScope() {
+        return (Scope) scopeComboBox.getSelectedItem();
     }
 
     public boolean isCreateCssSelected() {
