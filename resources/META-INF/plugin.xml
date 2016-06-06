@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>de.pheru.fx.intellij</id>
   <name>pherufx4intellij</name>
-  <version>1.0</version>
+  <version>1.0.1-SNAPSHOT</version>
 
   <description><![CDATA[
       Plugin for <a href="https://github.com/pheru/pherufx-mvp">pherufx-mvp</a>.
