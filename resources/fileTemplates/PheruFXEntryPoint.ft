@@ -1,0 +1,20 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+import de.pheru.fx.mvp.PheruFXEntryPoint;
+import javafx.stage.Stage;
+
+#parse("File Header.java")
+public class ${NAME} implements PheruFXEntryPoint {
+
+    @Override
+    public void start(final Stage stage) throws Exception {
+        // TODO implement
+    }
+
+#if(${STOP} && ${STOP} == "true")
+    @Override
+    public void stop() throws Exception {
+        // TODO implement
+    }
+#end
+}

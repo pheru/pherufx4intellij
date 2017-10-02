@@ -1,8 +1,5 @@
 package de.pheru.fx.intellij.createview;
 
-/**
- * Created by Philipp on 04.06.2016.
- */
 public enum Scope {
 
     DEPENDENT("Dependent (Default Scope)", "Dependent"),

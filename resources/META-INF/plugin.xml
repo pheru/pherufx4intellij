@@ -1,7 +1,7 @@
 <idea-plugin version="2">
   <id>de.pheru.fx.intellij</id>
   <name>pherufx4intellij</name>
-  <version>1.0.1-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
 
   <description><![CDATA[
       Plugin for <a href="https://github.com/pheru/pherufx-mvp">pherufx-mvp</a>.
@@ -27,7 +27,7 @@
   <actions>
     <!-- Add your actions here -->
     <action id="PheruFXView" class="de.pheru.fx.intellij.createview.CreateViewAction" text="PheruFXView"
-            description="Creates a new PheruFXView-package.">
+            description="Creates a new PheruFXView-package." icon="Icons.MVP_TEMPLATE">
       <add-to-group group-id="NewGroup" anchor="after" relative-to-action="NewPackageInfo"/>
     </action>
   </actions>

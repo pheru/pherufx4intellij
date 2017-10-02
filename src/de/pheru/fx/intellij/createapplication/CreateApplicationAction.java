@@ -1,4 +1,4 @@
-package de.pheru.fx.intellij.createview;
+package de.pheru.fx.intellij.createapplication;
 
 import com.intellij.ide.fileTemplates.FileTemplate;
 import com.intellij.ide.fileTemplates.FileTemplateManager;
@@ -18,14 +18,13 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiManager;
 import com.intellij.psi.PsiNameHelper;
 import com.intellij.psi.PsiPackage;
-import de.pheru.fx.intellij.CreateActionBase;
 
 import java.util.Properties;
 
 /**
  * Created by Philipp on 10.11.2015.
  */
-public class CreateViewAction extends CreateActionBase {
+public class CreateApplicationAction extends AnAction {
 
     //                NotificationGroup GROUP_DISPLAY_ID_INFO = new NotificationGroup("Group", NotificationDisplayType.BALLOON, true);
 //                Notification notification = GROUP_DISPLAY_ID_INFO.createNotification("Title", "Test",
@@ -33,8 +32,36 @@ public class CreateViewAction extends CreateActionBase {
 //                Notifications.Bus.notify(notification, e.getProject());
 
     @Override
-    public void execute(final Project project, final String qualifiedTargetPackage) {
-        CreateViewDialog dialog = new CreateViewDialog(project, qualifiedTargetPackage);
+    public void update(AnActionEvent e) {
+        super.update(e);
+        Project project = DataKeys.PROJECT.getData(e.getDataContext());
+        VirtualFile[] files = DataKeys.VIRTUAL_FILE_ARRAY.getData(e.getDataContext());
+        if (project != null && files != null && files.length == 1) {
+            PsiDirectory psiDirectory = PsiManager.getInstance(project).findDirectory(files[0]);
+            e.getPresentation().setVisible(psiDirectory != null && checkPackageExists(psiDirectory));
+        } else {
+            e.getPresentation().setVisible(false);
+        }
+    }
+
+    private boolean checkPackageExists(PsiDirectory directory) {
+        PsiPackage pkg = JavaDirectoryService.getInstance().getPackage(directory);
+        if (pkg == null) {
+            return false;
+        } else {
+            String name = pkg.getQualifiedName();
+            return StringUtil.isEmpty(name) || PsiNameHelper.getInstance(directory.getProject()).isQualifiedName(name);
+        }
+    }
+
+    @Override
+    public void actionPerformed(AnActionEvent event) {
+        PsiDirectory targetDirectory = PsiManager.getInstance(event.getProject()).findDirectory(DataKeys.VIRTUAL_FILE.getData(event.getDataContext()));
+        VirtualFile sourceRootFile = ProjectFileIndex.SERVICE.getInstance(event.getProject()).getSourceRootForFile(DataKeys.VIRTUAL_FILE.getData(event.getDataContext()));
+        PsiDirectory sourceRootDirectory = PsiManager.getInstance(event.getProject()).findDirectory(sourceRootFile);
+
+        String qualifiedPackageForTargetDirectory = getQualifiedPackageForTargetDirectory(sourceRootDirectory, targetDirectory);
+        CreateApplicationDialog dialog = new CreateApplicationDialog(event.getProject(), qualifiedPackageForTargetDirectory.isEmpty() ? "" : qualifiedPackageForTargetDirectory + ".");
         dialog.show();
         if (dialog.getExitCode() != 0) {
             return;
@@ -96,7 +123,7 @@ public class CreateViewAction extends CreateActionBase {
     }
 
     private PsiElement createFiles(Project project, PsiDirectory directory, Properties properties, String viewName,
-            CreateViewDialog dialog) throws Exception {
+            CreateApplicationDialog dialog) throws Exception {
         FileTemplate viewTemplate = FileTemplateManager.getInstance(project).getTemplate("PheruFXView");
         FileTemplate presenterTemplate = FileTemplateManager.getInstance(project).getTemplate("PheruFXPresenter");
         FileTemplate fxmlTemplate = FileTemplateManager.getInstance(project).getTemplate("PheruFXML");

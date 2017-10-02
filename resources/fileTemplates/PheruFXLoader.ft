@@ -1,0 +1,9 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+import de.pheru.fx.mvp.PheruFXLoader;
+
+#parse("File Header.java")
+public class ${NAME} extends PheruFXLoader {
+
+    TODO
+}

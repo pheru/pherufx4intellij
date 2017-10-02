@@ -1,0 +1,45 @@
+#if (${PACKAGE_NAME} && ${PACKAGE_NAME} != "")package ${PACKAGE_NAME};#end
+
+import de.pheru.fx.mvp.PheruFXApplication;
+import de.pheru.fx.mvp.PheruFXEntryPoint;
+#if(${LOADER} && ${LOADER} == "true")
+import de.pheru.fx.mvp.PheruFXLoader;
+#end
+#if(${SPLASH_STAGE} && ${SPLASH_STAGE} == "true")
+import javafx.stage.Stage;
+#end
+
+#parse("File Header.java")
+public class ${NAME} extends PheruFXApplication {
+
+    public static void main(final String[] args){
+        launch(args);
+    }
+
+#if(${INIT} && ${INIT} == "true")
+    @Override
+    protected void init() {
+        // TODO implement
+    }
+
+#end
+    @Override
+    protected Class<? extends PheruFXEntryPoint> getEntryPointClass() {
+        return EntryPointClass.class;
+    }
+
+#if(${SPLASH_STAGE} && ${SPLASH_STAGE} == "true")
+    @Override
+    public Stage createSplashStage() {
+        return new SplashStage();
+    }
+
+#end
+#if(${LOADER} && ${LOADER} == "true")
+    @Override
+    public Class<? extends PheruFXLoader> getLoaderClass() {
+        return LoaderClass.class;
+    }
+
+#end
+}

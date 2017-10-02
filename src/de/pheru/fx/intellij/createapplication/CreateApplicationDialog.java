@@ -1,10 +1,11 @@
-package de.pheru.fx.intellij.createview;
+package de.pheru.fx.intellij.createapplication;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.psi.PsiNameHelper;
+import de.pheru.fx.intellij.createview.Scope;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.Box;
@@ -26,7 +27,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateViewDialog extends DialogWrapper {
+public class CreateApplicationDialog extends DialogWrapper {
 
     private Project project;
 
@@ -55,10 +56,10 @@ public class CreateViewDialog extends DialogWrapper {
         return l;
     }
 
-    CreateViewDialog(final Project project, final String input) {
+    CreateApplicationDialog(Project project, String input) {
         super(project, true);
         this.project = project;
-        inputField.setText(input.isEmpty() ? "" : input + ".");
+        inputField.setText(input);
         inputField.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
